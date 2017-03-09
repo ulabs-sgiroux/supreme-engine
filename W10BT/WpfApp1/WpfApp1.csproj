@@ -70,7 +70,9 @@
     </ApplicationDefinition>
     <Compile Include="BtAddress.cs" />
     <Compile Include="Events\ScanReceivedEvent.cs" />
+    <Compile Include="ManufacturerDataParser.cs" />
     <Compile Include="Models\NearbyDevices.cs" />
+    <Compile Include="ServiceDataParser.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModel.cs" />

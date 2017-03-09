@@ -70,6 +70,7 @@ namespace WpfApp1
         private void W_Received(BluetoothLEAdvertisementWatcher sender, BluetoothLEAdvertisementReceivedEventArgs args)
         {
             var sred = new Events.ScanReceivedEventData(args);
+            Debug.WriteLine(sred);
             _eventAggregator.GetEvent<Events.ScanReceivedEvent>().Publish(sred);
         }
     }

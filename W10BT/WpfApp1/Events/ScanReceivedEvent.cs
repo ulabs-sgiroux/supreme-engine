@@ -13,17 +13,26 @@ namespace WpfApp1.Events
     {
         public BtAddress Address { get; set; }
         public int RSSI { get; set; }
+        public List<BluetoothLEManufacturerData> ManufacturerData { get; private set; }
+        public List<Guid> ServiceUuids { get; private set; }
+        public List<BluetoothLEAdvertisementDataSection> ServiceData { get; private set; }
 
         public ScanReceivedEventData(BluetoothLEAdvertisementReceivedEventArgs args)
         {
             Address = new BtAddress(args.BluetoothAddress);
             RSSI = args.RawSignalStrengthInDBm;
+            ManufacturerData = args.Advertisement.ManufacturerData.ToList();
+            ServiceUuids = args.Advertisement.ServiceUuids.ToList();
+            ServiceData = args.Advertisement.DataSections.ToList();
+        }
 
-            foreach (var item in args.Advertisement.DataSections)
-            {
-                var byteStr = Util.ByteArrayToHexViaLookup32(item.Data.ToArray());
-                Debug.WriteLine($"{item.DataType} {byteStr}");
-            }
+        public override string ToString()
+        {
+            string uuids = string.Join(",", ServiceUuids.ToArray());
+            string serviceData = string.Join(",", ServiceData.Select(a => $"[{a.DataType} - {Util.ByteArrayToHexViaLookup32(a.Data.ToArray())}]").ToArray());
+            ;
+            string manufData = string.Join(",", ManufacturerData.Select(a => $"[{a.CompanyId} - {Util.ByteArrayToHexViaLookup32(a.Data.ToArray())}]").ToArray());
+            return $"ScanReceivedEventData: {Address} - [{RSSI}] - {uuids} - {serviceData}";
         }
     }
 
